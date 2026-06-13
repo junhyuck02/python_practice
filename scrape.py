@@ -7,8 +7,10 @@ all_jobs = []
 def scrape_page(url):
     print(f"Scrapping {url}...")
     response = requests.get(url)
+    # 웹 사이트 서버에 요청을 보낸다
 
     soup = BeautifulSoup(response.content, "html.parser")
+    # BeautifulSoup로 서버에서 받아온 데이터 content를 html 구조에 맞춰서 정리한다
 
     jobs = soup.find("section", class_="jobs").find_all("li")[2:-1]
     # id는 그냥 하면 되지만 class로 검색하려면 class_로 해야함 파이썬에도 클래스가 있어서
@@ -20,7 +22,8 @@ def scrape_page(url):
     # letters = ["a","b","c"] ---> a1,b1,c1 = letters
 
     EMPLOYMENT_TYPES = {"Full-Time", "Contract"}
-    ignore_types = {"$", "USD", "Top 100", "Featured"}
+    IGNORE_TYPES = {"$", "USD", "Top 100", "Featured"}
+
     for job in jobs:
         title = job.find("span", class_="new-listing__header__title__text")
         company = job.find("p", class_="new-listing__company-name")
@@ -33,12 +36,12 @@ def scrape_page(url):
             # 앞 뒤 공백 정리
             if text in EMPLOYMENT_TYPES:
                 employ_type = text
-            elif text in ignore_types:
+            elif text in IGNORE_TYPES:
                 continue
             else:
                 region.append(text)
         url = job.find("div", class_="tooltip--flag-logo").next_sibling["href"]
-        # next_sibling은 찾은 값의 다음 요소를 달라는 것
+        # next_sibling은 찾은 값의 바로 다음 요소를 달라는 것
         job_data = {
             "title": title.text,
             "company": company.text,

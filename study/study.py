@@ -10,7 +10,7 @@ count, clear, reverse, append, remove
 count, index
 
 3. dictionary: map과 같이 key와 value가 있음
-    
+
     Dicts = {
     "name": "nico",
     "age": 12,
@@ -34,8 +34,5 @@ method는 클래스 안에 있는 함수
 클래스 상속하려면 class 자식(부모): 이런식으로 하면됨
 부모 클래스의 method나 속성을 자식 클래스에서 접근하려면 super() 사용
 super는 보통 오버라이딩 할때 많이 사용하긴 함
-
-
-
 
 """
