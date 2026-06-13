@@ -63,3 +63,6 @@ for x in range(total_pages):
 
 
 print(len(all_jobs))
+
+# 서버가 봇을 차단하는 경우, 데이터가 안오거나 에러가 나는 경우, 서버 부하가 걱정될 경우에
+# header에 User-Agent를 넣어주면 블록을 피하고 데이터를 가져올 수 있음
