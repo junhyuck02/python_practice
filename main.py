@@ -1,7 +1,8 @@
-"""import requests
+import requests
 from bs4 import BeautifulSoup
 
 all_jobs = []
+
 
 def scrape_page(url):
     print(f"Scrapping {url}...")
@@ -17,7 +18,6 @@ def scrape_page(url):
     # [1:-1] -> 이건 인덱스 1부터 인덱스 -2까지(뒤에서 두번째)
     # 구조 분해 할당 문법 가능
     # letters = ["a","b","c"] ---> a1,b1,c1 = letters
-
 
     EMPLOYMENT_TYPES = {"Full-Time", "Contract"}
     ignore_types = {"$", "USD", "Top 100", "Featured"}
@@ -40,18 +40,20 @@ def scrape_page(url):
         url = job.find("div", class_="tooltip--flag-logo").next_sibling["href"]
         # next_sibling은 찾은 값의 다음 요소를 달라는 것
         job_data = {
-            "title" : title.text,
-            "company" : company.text,
-            "employ_type" : employ_type,
-            "region" : ", ".join(region),
-            "url" : f"https://weworkremotely.com{url}"
+            "title": title.text,
+            "company": company.text,
+            "employ_type": employ_type,
+            "region": ", ".join(region),
+            "url": f"https://weworkremotely.com{url}",
         }
         all_jobs.append(job_data)
 
+
 def get_pages(url):
-    response  = requests.get(url)
+    response = requests.get(url)
     soup = BeautifulSoup(response.content, "html.parser")
     return len(soup.find("div", class_="pagination").find_all("span", class_="page"))
+
 
 total_pages = get_pages("https://weworkremotely.com/remote-full-time-jobs?page=1")
 
@@ -60,16 +62,4 @@ for x in range(total_pages):
     scrape_page(url)
 
 
-print(len(all_jobs))"""
-
-import requests
-from bs4 import BeautifulSoup
-
-r = requests.get(
-    "https://remoteok.com/remote-flutter-jobs",
-    headers={
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.5 Safari/605.1.15"
-    },
-)
-print(r.status_code)
-print(r.content)
+print(len(all_jobs))
