@@ -9,9 +9,12 @@ jobs = extract_wanted_jobs(keyword)
 save_to_file(keyword, jobs)
 """
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from extractors.wanted import extract_wanted_jobs
+from file import save_to_file
 
 # flask는 html 파일을 templates라는 폴더에 저장해두고 사용함
+# request는 사용자가 서버로 접속할 때 보내는 모든 정보를 담고 있음
 
 app = Flask("JobScrapper")
 # 어플리케이션의 이름을 설정하고 객체를 생성
@@ -27,7 +30,10 @@ def home():
 
 @app.route("/search")
 def search():
-    return render_template("search.html")
+    keyword = request.args.get("keyword")
+    # request라는 객체 안에 있는 args라는 데이터 보관함에서 특정 값을 꺼내기
+    jobs = extract_wanted_jobs(keyword)
+    return render_template("search.html", keyword=keyword, jobs=jobs)
 
 
 app.run(debug=True)
