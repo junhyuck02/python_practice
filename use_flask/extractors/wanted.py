@@ -34,7 +34,10 @@ class WantedJobScrapper:
         for keyword in self.keywords:
             print(f"Scrapper {keyword}...")
             page = self.browser.new_page()
-            page.goto(f"https://www.wanted.co.kr/search?query={keyword}&tab=position")
+            page.goto(
+                f"https://www.wanted.co.kr/search?query={keyword}&tab=position",
+                wait_until="domcontentloaded",
+            )
 
             for x in range(5):
                 time.sleep(5)
