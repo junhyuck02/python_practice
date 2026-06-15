@@ -4,16 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Job Scrapper</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"
+    />
   </head>
   <body>
-    <h1>Job Scrapper</h1>
-    <h4>What job do you want?</h4>
-    <form action="/search">
-      <!-- search 주소로 이동 -->
-      <!-- form은 기본적으로 get메소드가 설정되어있음, get은 action으로 넣은 page로 이동하게 되면 input에 넣은 모든 값을 url에 넣는다 -->
-      <input type="text" name="keyword" placeholder="Write keyword please" />
-      <!-- input에 name을 넣어야하는 이유: name의 keyword가 url에 보이게됨-->
-      <button>Search</button>
-    </form>
+    <main class="container">
+      <h1>Job Scrapper</h1>
+      <h4>What job do you want?</h4>
+      <form action="/search">
+        <!-- search 주소로 이동 -->
+        <!-- form은 기본적으로 get메소드가 설정되어있음, get은 action으로 넣은 page로 이동하게 되면 input에 넣은 모든 값을 url에 넣는다 -->
+        <input type="text" name="keyword" placeholder="Write keyword please" />
+        <!-- input에 name을 넣어야하는 이유: name의 keyword가 url에 보이게됨-->
+        <button>Search</button>
+      </form>
+    </main>
   </body>
 </html>

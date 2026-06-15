@@ -9,7 +9,7 @@ jobs = extract_wanted_jobs(keyword)
 save_to_file(keyword, jobs)
 """
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, send_file
 from extractors.wanted import extract_wanted_jobs
 from file import save_to_file
 
@@ -28,12 +28,40 @@ def home():
     # html 내부에서 {{}}를 사용하면 변수를 전달해줄 수 있음
 
 
+db = {}
+# 가짜 db, 서버가 켜져있을때만 메모리에 있음
+# 똑같은 검색어를 여러 번 검색할 때, 서버가 일을 덜 하게 만드는 효율적인 저장소(캐시라고함)
+
+
 @app.route("/search")
 def search():
     keyword = request.args.get("keyword")
     # request라는 객체 안에 있는 args라는 데이터 보관함에서 특정 값을 꺼내기
-    jobs = extract_wanted_jobs(keyword)
+    if keyword == None:
+        return redirect("/")
+        # 홈화면으로 돌려보내기
+    if keyword in db:
+        # 내가 검색해본적 있니? 있으면 재사용
+        jobs = db[keyword]
+    else:
+        jobs = extract_wanted_jobs(keyword)
+        db[keyword] = jobs
+        # 다음에 또 검색할 상황에 대비해 캐싱
     return render_template("search.html", keyword=keyword, jobs=jobs)
+
+
+@app.route("/export")
+def export():
+    keyword = request.args.get("keyword")
+    if keyword == None:
+        return redirect("/")
+    if keyword not in db:
+        # db에 있는지 확인하고 검색한적이 없어서 데이터가 없다면 검색 페이지로 보내버림
+        return redirect(f"/search?keyword={keyword}")
+    save_to_file(keyword, db[keyword])
+    return send_file(f"{keyword}.csv", as_attachment=True)
+    # send_file로 파일을 사용자의 컴퓨터로 보낸다
+    # as_attachment=True: 웹 브라우저에서 파일을 바로 열려고 하지 않고, 다운로드 창을 띄워서 파일로 저장하게끔 함
 
 
 app.run(debug=True)
