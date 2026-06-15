@@ -21,8 +21,6 @@ def home():
     return "Hello! Welcome to Job Scrapper!"
 
 
-# 항상 같이 있어야함
-
 app.run(debug=True)
 # flask 어플리케이션을 실제로 시작하는 명령어
 # debug=True: 코드를 수정하고 저장할 때마다 서버를 껐다 켤 필요 없이 자동으로 변경 사항이 반영됨
